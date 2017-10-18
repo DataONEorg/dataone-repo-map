@@ -2,11 +2,14 @@
 
 Author: Matthew B. Jones
 Created: 2017-10-17
+View Maps: https://dataoneorg.github.io/dataone-repo-map/dataone-repo-map.html
 
-R scripts and location data for generating maps of DataONE repositories.
+R scripts and location data for generating maps of 
+[DataONE repositories](https://www.dataone.org/current-member-nodes).
 Location data are found in the dataone-nodes.csv file in the main directory, and 
 the `dataone-repo-map.Rmd` can be run to generate maps using Leaflet.js to
-display the set of Member Nodes and Coordinating nodes.
+display maps of the
+[DataONE Member Nodes and Coordinating nodes](https://dataoneorg.github.io/dataone-repo-map/dataone-repo-map.html).
 
 ## Customization
 
