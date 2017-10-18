@@ -1,8 +1,8 @@
 # DataONE Repository Maps
 
-Author: Matthew B. Jones
-Created: 2017-10-17
-View Maps: https://dataoneorg.github.io/dataone-repo-map/dataone-repo-map.html
+- __Author__: Matthew B. Jones
+- __Created__: 2017-10-17
+- __View Maps__: https://dataoneorg.github.io/dataone-repo-map/dataone-repo-map.html
 
 R scripts and location data for generating maps of 
 [DataONE repositories](https://www.dataone.org/current-member-nodes).
