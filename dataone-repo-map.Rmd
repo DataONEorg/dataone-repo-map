@@ -1,0 +1,70 @@
+---
+title: "dataone-repo-maps"
+author: "Matt Jones"
+date: "10/17/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+```
+
+# Building a map of DataONE repository locations
+
+We frequently need to update a map of DataONE repositories.  Automate the
+process to make it simpler to regenerate and tweak on demand, and as new 
+repositories are added.
+
+## Load repository location data
+
+View the first six repository locations (but the rest are in the table).
+
+```{r location-data, echo=FALSE}
+repos <- read.csv("dataone-nodes.csv")
+mns <- repos %>% filter(! name == 'UCSB' &! name == 'UNM' &! name == 'ORC')
+cns <- repos %>% filter(name == 'UCSB' | name == 'UNM' | name == 'ORC')
+head(mns)
+```
+
+
+## DataONE Member Nodes by year of membership
+
+```{r mn-map-by-year, echo=FALSE}
+library(leaflet)
+pal <- colorFactor(
+  palette = "Blues",
+  domain = repos$year
+)
+leaflet(mns) %>%
+  addTiles() %>%
+  addProviderTiles("Stamen.Watercolor") %>%
+  addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1, 
+                   fillColor = ~colorFactor("Blues", year)(year), popup = ~as.character(description)) %>%
+  addLegend("bottomleft", 
+            pal = pal, 
+            values = ~year,
+            title = "Year",
+            opacity = 1)
+```
+
+## DataONE Member Nodes
+```{r mn-map, echo=FALSE}
+leaflet(mns) %>%
+  addTiles() %>%
+  addProviderTiles("Stamen.Watercolor") %>%
+  addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1, 
+                   fillColor = "#882818", popup = ~as.character(description))
+```
+
+## DataONE Coordinating Nodes
+```{r cn-map, echo=FALSE}
+leaflet(cns) %>%
+  addTiles() %>%
+  addProviderTiles("Stamen.Watercolor") %>%
+  addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1, 
+                   fillColor = "#2F536F", popup = ~as.character(description), label = ~name, labelOptions = labelOptions(noHide = TRUE, textSize='36pt', textOnly = TRUE, offset = c(20,-12)))
+```
+
+
+
