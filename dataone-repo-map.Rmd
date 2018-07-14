@@ -23,8 +23,8 @@ View the first six repository locations (but the rest are in the table).
 ```{r location-data, echo=FALSE}
 repos <- read.csv("dataone-nodes.csv") %>%
     mutate(name=stringi::stri_sub(name,10))
-mns <- repos %>% filter(! name == 'UCSB' &! name == 'UNM' &! name == 'ORC')
-cns <- repos %>% filter(name == 'UCSB' | name == 'UNM' | name == 'ORC')
+mns <- repos %>% filter(! name == 'CNUCSB1' &! name == 'CNUNM1' &! name == 'CNORC1')
+cns <- repos %>% filter(name == 'CNUCSB1' | name == 'CNUNM1' | name == 'CNORC1')
 head(mns)
 ```
 
