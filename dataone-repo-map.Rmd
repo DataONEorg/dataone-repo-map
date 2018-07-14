@@ -25,7 +25,7 @@ repos <- read.csv("dataone-nodes.csv") %>%
     mutate(name=stringi::stri_sub(name,10))
 mns <- repos %>% filter(! name == 'UCSB' &! name == 'UNM' &! name == 'ORC')
 cns <- repos %>% filter(name == 'UCSB' | name == 'UNM' | name == 'ORC')
-mns
+head(mns)
 ```
 
 
