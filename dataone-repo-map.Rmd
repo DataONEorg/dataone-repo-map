@@ -21,9 +21,10 @@ repositories are added.
 View the first six repository locations (but the rest are in the table).
 
 ```{r location-data, echo=FALSE}
-repos <- read.csv("dataone-nodes.csv")
-mns <- repos %>% filter(! name == 'UCSB' &! name == 'UNM' &! name == 'ORC')
-cns <- repos %>% filter(name == 'UCSB' | name == 'UNM' | name == 'ORC')
+repos <- read.csv("dataone-nodes.csv") %>%
+    mutate(name=stringi::stri_sub(name,10))
+mns <- repos %>% filter(! name == 'CNUCSB1' &! name == 'CNUNM1' &! name == 'CNORC1')
+cns <- repos %>% filter(name == 'CNUCSB1' | name == 'CNUNM1' | name == 'CNORC1')
 head(mns)
 ```
 
@@ -32,17 +33,17 @@ head(mns)
 
 ```{r mn-map-by-year, echo=FALSE}
 library(leaflet)
-pal <- colorFactor(
+mpal <- colorFactor(
   palette = "Blues",
   domain = repos$year
 )
 leaflet(mns) %>%
   addTiles() %>%
-  addProviderTiles("Stamen.Watercolor") %>%
+  addProviderTiles("CartoDB.PositronNoLabels") %>%
   addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1, 
                    fillColor = ~colorFactor("Blues", year)(year), popup = ~as.character(description)) %>%
   addLegend("bottomleft", 
-            pal = pal, 
+            pal = mpal, 
             values = ~year,
             title = "Year",
             opacity = 1)
@@ -52,7 +53,7 @@ leaflet(mns) %>%
 ```{r mn-map, echo=FALSE}
 leaflet(mns) %>%
   addTiles() %>%
-  addProviderTiles("Stamen.Watercolor") %>%
+  addProviderTiles("CartoDB.PositronNoLabels") %>%
   addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1, 
                    fillColor = "#882818", popup = ~as.character(description))
 ```
@@ -61,9 +62,9 @@ leaflet(mns) %>%
 ```{r cn-map, echo=FALSE}
 leaflet(cns) %>%
   addTiles() %>%
-  addProviderTiles("Stamen.Watercolor") %>%
+  addProviderTiles("CartoDB.PositronNoLabels") %>%
   addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1, 
-                   fillColor = "#2F536F", popup = ~as.character(description), label = ~name, labelOptions = labelOptions(noHide = TRUE, textSize='36pt', textOnly = TRUE, offset = c(20,-12)))
+                   fillColor = "#2F536F", popup = ~as.character(description), label = stringi::stri_sub(~name,10), labelOptions = labelOptions(noHide = TRUE, textSize='36pt', textOnly = TRUE, offset = c(20,-12)))
 ```
 
 
