@@ -91,8 +91,8 @@ m <- ggplot() +
     geom_sf(data=gbif_sf,
             mapping=aes(color=Network, alpha=Network), size=2,
             show.legend = "point") +
-    geom_sf(data=dataverse_sf, mapping=aes(color=Network), size=2.5, alpha=0.75) +
-    geom_sf(data=dataone_sf, mapping=aes(color=Network), size=2.5, alpha=0.75) +
+    geom_sf(data=dataverse_sf, mapping=aes(color=Network), size=2.5, alpha=0.75, show.legend = "point") +
+    geom_sf(data=dataone_sf, mapping=aes(color=Network), size=2.5, alpha=0.75, show.legend = "point") +
     scale_alpha_manual(guide='none', values = list(GBIF = 0.5, DataOne = 0.5, Dataverse=0.5)) +
     theme(#panel.grid.major = element_line(colour = 'transparent'),
             # axis.title.x=element_blank(),
