@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "year,label,description,lon,lat,alt,name,uri" > dataone-nodes.csv
+#cat nodelist.xml | xml sel -T -t \
 curl -s "https://cn.dataone.org/cn/v2/node" | xml sel -T -t \
  -m "//node[(property/@key='CN_operational_status' and property='operational' or property='replicator') and identifier!='urn:node:CN']" \
  -v "substring(property[@key='CN_date_operational'],1,4)" -o ",\"" \
