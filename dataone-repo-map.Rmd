@@ -31,17 +31,18 @@ head(mns)
 
 ## DataONE Member Nodes by year of membership
 
-```{r mn-map-by-year, echo=FALSE}
+```{r mn-map-by-year, echo=FALSE, fig.width=10}
 library(leaflet)
+color_pal <- c("#8B76A2","#817BA6","#7780AA","#6B84AD","#5E89AE","#518DAD","#4491AC","#3695A9","#2998A5","#1F9BA0","#199E9A","#1CA193","#25A38B","#31A483","#3EA67A","#4BA772","#58A869","#65A960","#72A958")
 mpal <- colorFactor(
-  palette = "Blues",
+  palette = color_pal,
   domain = repos$year
 )
 leaflet(mns) %>%
   addTiles() %>%
   addProviderTiles("CartoDB.PositronNoLabels") %>%
-  addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1, 
-                   fillColor = ~colorFactor("Blues", year)(year), popup = ~as.character(description)) %>%
+  addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1, radius=7,
+                   fillColor = ~colorFactor(color_pal, year)(year), popup = ~as.character(description)) %>%
   addLegend("bottomleft", 
             pal = mpal, 
             values = ~year,
@@ -50,12 +51,12 @@ leaflet(mns) %>%
 ```
 
 ## DataONE Member Nodes
-```{r mn-map, echo=FALSE}
+```{r mn-map, echo=FALSE, fig.width=10in}
 leaflet(mns) %>%
   addTiles() %>%
   addProviderTiles("CartoDB.PositronNoLabels") %>%
-  addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1, 
-                   fillColor = "#882818", popup = ~as.character(description))
+  addCircleMarkers(~lon, ~lat, stroke=FALSE, fillOpacity = 1,radius=7,
+                   fillColor = "#518DAD", popup = ~as.character(description))
 ```
 
 ## DataONE Coordinating Nodes
@@ -67,5 +68,15 @@ leaflet(cns) %>%
                    fillColor = "#2F536F", popup = ~as.character(description), label = stringi::stri_sub(~name,10), labelOptions = labelOptions(noHide = TRUE, textSize='36pt', textOnly = TRUE, offset = c(20,-12)))
 ```
 
+## Cumulative dataset count
+
+```{r}
+library(httr2)
+library(jsonlite)
+query <- 'https://cn.dataone.org/cn/v2/query/solr/?q=formatType:METADATA+AND+-obsoletedBy:*&fl=identifier,dateUploaded&wt=json&rows=0&start=0&facet=true&facet.range=dateUploaded&facet.range.start=2000-01-01T01:01:01Z&facet.range.end=2023-08-31T24:59:59Z&facet.range.gap=%2B1MONTH'
+httr2::request(query) |> 
+  httr2::req_perform() |> 
+  httr2::resp_body_json()
+```
 
 
