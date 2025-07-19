@@ -59,6 +59,33 @@ leaflet(mns) %>%
                    fillColor = "#518DAD", popup = ~as.character(description))
 ```
 
+## Static map
+
+```{r static-map, fig.width=10}
+library(sf)
+library(ggplot2)
+library(rnaturalearth)
+library(scales)
+mns_4326 <- st_as_sf(mns,
+                     coords = c('lon', 'lat'),
+                     crs = 4326,
+                     remove = F)
+mns_robinson <- st_transform(mns_4326, "ESRI:53030")
+
+# Use natural earth for country boundaries
+ne_4326 <- ne_countries(returnclass = "sf")
+ne_robinson <- st_transform(ne_4326, "ESRI:53030")
+
+ggplot() +
+    geom_sf(data = ne_robinson, aes(fill = pop_est)) +
+    geom_sf(data = mns_robinson, aes(color = year)) +
+    scale_fill_continuous(low = "khaki",
+                          high =  "firebrick",
+                          labels = comma) +
+    theme_bw()
+ 
+```
+
 ## DataONE Coordinating Nodes
 ```{r cn-map, echo=FALSE}
 leaflet(cns) %>%
