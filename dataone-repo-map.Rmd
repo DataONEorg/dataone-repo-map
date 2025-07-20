@@ -77,11 +77,8 @@ ne_4326 <- ne_countries(returnclass = "sf")
 ne_robinson <- st_transform(ne_4326, "ESRI:53030")
 
 ggplot() +
-    geom_sf(data = ne_robinson, aes(fill = pop_est)) +
-    geom_sf(data = mns_robinson, aes(color = year)) +
-    scale_fill_continuous(low = "khaki",
-                          high =  "firebrick",
-                          labels = comma) +
+    geom_sf(data = ne_robinson, fill = "khaki") +
+    geom_sf(data = mns_robinson, color = "darkgreen", size=3) +
     theme_bw()
  
 ```
